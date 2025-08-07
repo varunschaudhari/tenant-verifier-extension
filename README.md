@@ -49,7 +49,7 @@ A comprehensive Chrome extension for verifying tenant information in India. This
 ### For Developers
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/tenant-verification-extension.git
+git clone https://github.com/varunschaudhari/tenant-verification-extension.git
 
 # Navigate to the project directory
 cd tenant-verification-extension
@@ -296,7 +296,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Email**: support@tenantverification.in
 - **Website**: https://tenantverification.in
-- **GitHub**: https://github.com/your-username/tenant-verification-extension
+- **GitHub**: https://github.com/varunschaudhari/tenant-verification-extension
 - **Twitter**: @TenantVerifyIN
 
 ---

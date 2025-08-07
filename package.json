@@ -57,10 +57,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/tenant-verification-extension.git"
+    "url": "https://github.com/varunschaudhari/tenant-verification-extension.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/tenant-verification-extension/issues"
+    "url": "https://github.com/varunschaudhari/tenant-verification-extension/issues"
   },
   "homepage": "https://tenantverification.in",
   "engines": {

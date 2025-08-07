@@ -35,7 +35,7 @@ Before installing the extension, ensure you have:
 1. **Download the Extension**
    ```bash
    # Clone from GitHub
-   git clone https://github.com/your-username/tenant-verification-extension.git
+   git clone https://github.com/varunschaudhari/tenant-verification-extension.git
    
    # Or download ZIP file
    # Extract the ZIP to a folder on your computer
@@ -360,7 +360,7 @@ cat manifest.json | python -m json.tool
 
 - **Email**: support@tenantverification.in
 - **Website**: https://tenantverification.in
-- **GitHub**: https://github.com/your-username/tenant-verification-extension
+- **GitHub**: https://github.com/varunschaudhari/tenant-verification-extension
 - **Documentation**: https://docs.tenantverification.in
 
 ## 📋 Checklist
