@@ -35,7 +35,7 @@ Before installing the extension, ensure you have:
 1. **Download the Extension**
    ```bash
    # Clone from GitHub
-   git clone https://github.com/varunschaudhari/tenant-verification-extension.git
+   git clone https://github.com/varunschaudhari/tenant-verifier-extension.git
    
    # Or download ZIP file
    # Extract the ZIP to a folder on your computer
@@ -44,7 +44,7 @@ Before installing the extension, ensure you have:
 2. **Verify Files**
    Ensure you have all required files:
    ```
-   tenant-verification-extension/
+   tenant-verifier-extension/
    ├── manifest.json
    ├── popup.html
    ├── popup.css
@@ -158,7 +158,7 @@ To use real verification services, you'll need API keys from:
 
 ```bash
 # Check file structure
-ls -la tenant-verification-extension/
+ls -la tenant-verifier-extension/
 
 # Verify manifest.json is valid
 cat manifest.json | python -m json.tool
@@ -323,7 +323,7 @@ cat manifest.json | python -m json.tool
 
 1. **Backup Current Version**
    ```bash
-   cp -r tenant-verification-extension tenant-verification-backup
+   cp -r tenant-verifier-extension tenant-verifier-backup
    ```
 
 2. **Download New Version**
@@ -360,7 +360,7 @@ cat manifest.json | python -m json.tool
 
 - **Email**: support@tenantverification.in
 - **Website**: https://tenantverification.in
-- **GitHub**: https://github.com/varunschaudhari/tenant-verification-extension
+- **GitHub**: https://github.com/varunschaudhari/tenant-verifier-extension
 - **Documentation**: https://docs.tenantverification.in
 
 ## 📋 Checklist

@@ -2,6 +2,11 @@
 
 class TenantVerificationBackground {
     constructor() {
+        this.isInitialized = false;
+        this.verificationQueue = [];
+        this.maxConcurrentVerifications = 3;
+        this.activeVerifications = 0;
+        
         this.initializeEventListeners();
         this.initializeStorage();
     }
@@ -18,9 +23,15 @@ class TenantVerificationBackground {
             return true; // Keep message channel open for async response
         });
 
-        // Tab updates
+        // Tab updates - with throttling
+        let tabUpdateTimeout;
         chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            this.handleTabUpdate(tabId, changeInfo, tab);
+            if (tabUpdateTimeout) {
+                clearTimeout(tabUpdateTimeout);
+            }
+            tabUpdateTimeout = setTimeout(() => {
+                this.handleTabUpdate(tabId, changeInfo, tab);
+            }, 1000); // Throttle tab updates
         });
 
         // Extension icon click
@@ -105,7 +116,9 @@ class TenantVerificationBackground {
         try {
             switch (message.action) {
                 case 'verifyTenant':
-                    const results = await this.performVerification(message.data);
+                    // Queue verification to prevent overwhelming the system
+                    const verificationPromise = this.queueVerification(message.data);
+                    const results = await verificationPromise;
                     sendResponse({ success: true, results });
                     break;
 
@@ -138,8 +151,52 @@ class TenantVerificationBackground {
         }
     }
 
+    async queueVerification(tenantData) {
+        return new Promise((resolve, reject) => {
+            const verificationTask = {
+                data: tenantData,
+                resolve,
+                reject,
+                timestamp: Date.now()
+            };
+
+            this.verificationQueue.push(verificationTask);
+            this.processVerificationQueue();
+        });
+    }
+
+    async processVerificationQueue() {
+        if (this.activeVerifications >= this.maxConcurrentVerifications || this.verificationQueue.length === 0) {
+            return;
+        }
+
+        const task = this.verificationQueue.shift();
+        if (!task) return;
+
+        this.activeVerifications++;
+
+        try {
+            // Add timeout to prevent hanging
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Verification timeout')), 30000); // 30 second timeout
+            });
+
+            const verificationPromise = this.performVerification(task.data);
+            const results = await Promise.race([verificationPromise, timeoutPromise]);
+            
+            task.resolve(results);
+        } catch (error) {
+            console.error('Verification failed:', error);
+            task.reject(error);
+        } finally {
+            this.activeVerifications--;
+            // Process next task in queue
+            setTimeout(() => this.processVerificationQueue(), 100);
+        }
+    }
+
     async performVerification(tenantData) {
-        // Simulate API verification process
+        // Simulate API verification process with better error handling
         const results = {
             overallStatus: 'Pending',
             confidenceScore: 0,
@@ -152,23 +209,35 @@ class TenantVerificationBackground {
         };
 
         try {
-            // Perform parallel verification checks
-            const [identityResult, rentalResult, backgroundResult] = await Promise.all([
+            // Perform parallel verification checks with individual timeouts
+            const [identityResult, rentalResult, backgroundResult] = await Promise.allSettled([
                 this.verifyIdentity(tenantData),
                 this.verifyRentalHistory(tenantData),
                 this.performBackgroundCheck(tenantData)
             ]);
 
-            // Update results
-            results.identityStatus = identityResult.status;
-            results.rentalHistory = rentalResult.status;
-            results.backgroundCheck = backgroundResult.status;
+            // Handle results with fallbacks
+            results.identityStatus = identityResult.status === 'fulfilled' ? identityResult.value.status : 'Failed';
+            results.rentalHistory = rentalResult.status === 'fulfilled' ? rentalResult.value.status : 'Failed';
+            results.backgroundCheck = backgroundResult.status === 'fulfilled' ? backgroundResult.value.status : 'Failed';
 
             // Calculate overall confidence score
-            results.confidenceScore = this.calculateConfidenceScore(identityResult, rentalResult, backgroundResult);
+            const identityConfidence = identityResult.status === 'fulfilled' ? identityResult.value.confidence : 0;
+            const rentalConfidence = rentalResult.status === 'fulfilled' ? rentalResult.value.confidence : 0;
+            const backgroundConfidence = backgroundResult.status === 'fulfilled' ? backgroundResult.value.confidence : 0;
+
+            results.confidenceScore = this.calculateConfidenceScore(
+                { status: results.identityStatus, confidence: identityConfidence },
+                { status: results.rentalHistory, confidence: rentalConfidence },
+                { status: results.backgroundCheck, confidence: backgroundConfidence }
+            );
 
             // Determine risk level
-            results.riskLevel = this.calculateRiskLevel(results.confidenceScore, identityResult, rentalResult, backgroundResult);
+            results.riskLevel = this.calculateRiskLevel(results.confidenceScore, 
+                identityResult.status === 'fulfilled' ? identityResult.value : null,
+                rentalResult.status === 'fulfilled' ? rentalResult.value : null,
+                backgroundResult.status === 'fulfilled' ? backgroundResult.value : null
+            );
 
             // Set overall status
             results.overallStatus = this.determineOverallStatus(results);

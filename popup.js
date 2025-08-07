@@ -175,11 +175,18 @@ class TenantVerifier {
         this.showLoading();
         
         try {
+            // Add timeout to prevent hanging
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Verification timeout')), 30000); // 30 second timeout
+            });
+
             // Send message to background script for verification
-            const response = await chrome.runtime.sendMessage({
+            const verificationPromise = chrome.runtime.sendMessage({
                 action: 'verifyTenant',
                 data: tenantData
             });
+
+            const response = await Promise.race([verificationPromise, timeoutPromise]);
 
             if (response.success) {
                 this.displayResults(response.results);
@@ -190,7 +197,10 @@ class TenantVerifier {
             }
         } catch (error) {
             console.error('Verification error:', error);
-            this.showNotification('An error occurred during verification', 'error');
+            const errorMessage = error.message === 'Verification timeout' 
+                ? 'Verification timed out. Please try again.' 
+                : 'An error occurred during verification';
+            this.showNotification(errorMessage, 'error');
             this.showForm();
         }
     }
@@ -369,7 +379,7 @@ class TenantVerifier {
         e.preventDefault();
         
         const urls = {
-            help: 'https://github.com/your-repo/tenant-verification-extension#readme',
+            help: 'https://github.com/varunschaudhari/tenant-verifier-extension#readme',
             privacy: 'https://your-domain.com/privacy-policy',
             feedback: 'mailto:feedback@your-domain.com'
         };

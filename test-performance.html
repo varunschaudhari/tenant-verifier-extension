@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Verification Extension - Performance Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .performance-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tenant Verification Extension - Performance Test</h1>
+    
+    <div class="test-section">
+        <h2>Performance Monitoring</h2>
+        <div class="performance-info">
+            <p><strong>Page Load Time:</strong> <span id="loadTime">Calculating...</span></p>
+            <p><strong>Memory Usage:</strong> <span id="memoryUsage">Calculating...</span></p>
+            <p><strong>DOM Elements:</strong> <span id="domElements">Calculating...</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Tenant Application Form</h2>
+        <form class="tenant-form">
+            <div class="form-container">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter full name">
+                
+                <label for="aadhaar">Aadhaar Number:</label>
+                <input type="text" id="aadhaar" name="aadhaar" placeholder="XXXX-XXXX-XXXX">
+                
+                <label for="pan">PAN Number:</label>
+                <input type="text" id="pan" name="pan" placeholder="ABCDE1234F">
+                
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91-98765-43210">
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="email@example.com">
+                
+                <label for="address">Current Address:</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter current address"></textarea>
+                
+                <label for="employer">Employer/Company:</label>
+                <input type="text" id="employer" name="employer" placeholder="Company name">
+                
+                <label for="salary">Monthly Salary (₹):</label>
+                <input type="number" id="salary" name="salary" placeholder="50000">
+                
+                <button type="submit">Submit Application</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="test-section">
+        <h2>Multiple Forms Test</h2>
+        <p>This section contains multiple forms to test the extension's scanning performance:</p>
+        
+        <form class="rental-form">
+            <h3>Rental Agreement Form</h3>
+            <input type="text" placeholder="Property address">
+            <input type="text" placeholder="Tenant name">
+            <button type="submit">Submit Rental Form</button>
+        </form>
+        
+        <form class="application-form">
+            <h3>Tenant Application</h3>
+            <input type="text" placeholder="Applicant name">
+            <input type="text" placeholder="Contact number">
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
+    <div class="test-section">
+        <h2>Instructions</h2>
+        <ol>
+            <li>Load this page with your extension enabled</li>
+            <li>Check the performance metrics above</li>
+            <li>Look for verification buttons added to forms</li>
+            <li>Test the floating widget (Ctrl+Shift+V)</li>
+            <li>Monitor browser performance and memory usage</li>
+            <li>Check if the page remains responsive</li>
+        </ol>
+    </div>
+
+    <script>
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            const loadTime = performance.now();
+            document.getElementById('loadTime').textContent = `${loadTime.toFixed(2)}ms`;
+            
+            const domElements = document.querySelectorAll('*').length;
+            document.getElementById('domElements').textContent = domElements;
+            
+            // Memory usage (if available)
+            if (performance.memory) {
+                const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                document.getElementById('memoryUsage').textContent = `${memoryMB}MB`;
+            } else {
+                document.getElementById('memoryUsage').textContent = 'Not available';
+            }
+        });
+
+        // Form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Form submitted! (This is a test page)');
+            });
+        });
+
+        // Add some dynamic content to test mutation observer
+        setTimeout(() => {
+            const newForm = document.createElement('form');
+            newForm.className = 'dynamic-tenant-form';
+            newForm.innerHTML = `
+                <h3>Dynamically Added Form</h3>
+                <input type="text" placeholder="Dynamic tenant name">
+                <button type="submit">Submit Dynamic Form</button>
+            `;
+            document.body.appendChild(newForm);
+        }, 3000);
+    </script>
+</body>
+</html>

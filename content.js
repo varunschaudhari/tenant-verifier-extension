@@ -6,6 +6,10 @@ class TenantVerificationContent {
         this.floatingWidget = null;
         this.verificationButtons = [];
         this.observer = null;
+        this.scanTimeout = null;
+        this.scanThrottle = 1000; // Throttle scans to once per second
+        this.lastScanTime = 0;
+        this.scannedForms = new Set(); // Track already scanned forms
         
         this.initialize();
     }
@@ -63,6 +67,17 @@ class TenantVerificationContent {
     }
 
     scanPageForTenantForms() {
+        // Throttle scanning to prevent excessive CPU usage
+        const now = Date.now();
+        if (now - this.lastScanTime < this.scanThrottle) {
+            return {
+                found: this.verificationButtons.length > 0,
+                count: this.verificationButtons.length,
+                elements: 0
+            };
+        }
+        this.lastScanTime = now;
+
         const tenantKeywords = [
             'tenant', 'rent', 'lease', 'rental', 'property', 'accommodation',
             'flat', 'apartment', 'house', 'room', 'pg', 'paying guest',
@@ -81,10 +96,24 @@ class TenantVerificationContent {
         let foundForms = [];
         let tenantElements = [];
 
-        // Find forms
+        // Limit the number of elements to scan to prevent freezing
+        const maxElementsToScan = 1000;
+        let elementsScanned = 0;
+
+        // Find forms with better performance
         formSelectors.forEach(selector => {
+            if (elementsScanned >= maxElementsToScan) return;
+            
             const forms = document.querySelectorAll(selector);
-            forms.forEach(form => {
+            const formsArray = Array.from(forms).slice(0, 50); // Limit to 50 forms
+            
+            formsArray.forEach(form => {
+                if (elementsScanned >= maxElementsToScan) return;
+                elementsScanned++;
+                
+                // Skip if already processed
+                if (this.scannedForms.has(form)) return;
+                
                 const formText = form.textContent.toLowerCase();
                 const hasTenantKeywords = tenantKeywords.some(keyword => 
                     formText.includes(keyword)
@@ -92,35 +121,20 @@ class TenantVerificationContent {
 
                 if (hasTenantKeywords) {
                     foundForms.push(form);
+                    this.scannedForms.add(form);
                 }
             });
         });
 
-        // Find tenant-related elements
-        const allElements = document.querySelectorAll('*');
-        allElements.forEach(element => {
-            const elementText = element.textContent.toLowerCase();
-            const hasTenantKeywords = tenantKeywords.some(keyword => 
-                elementText.includes(keyword)
-            );
-
-            if (hasTenantKeywords && element.children.length === 0) {
-                tenantElements.push(element);
+        // Add verification buttons to new forms only
+        foundForms.forEach(form => {
+            if (!form.querySelector('.tenant-verification-btn')) {
+                this.addVerificationButtonToForm(form);
             }
         });
 
-        // Add verification buttons to forms
-        foundForms.forEach(form => {
-            this.addVerificationButtonToForm(form);
-        });
-
-        // Highlight tenant-related elements
-        tenantElements.forEach(element => {
-            this.highlightElement(element);
-        });
-
         return {
-            found: foundForms.length > 0 || tenantElements.length > 0,
+            found: foundForms.length > 0 || this.verificationButtons.length > 0,
             count: foundForms.length,
             elements: tenantElements.length
         };
@@ -619,16 +633,42 @@ class TenantVerificationContent {
     }
 
     setupMutationObserver() {
+        // Disconnect existing observer if any
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+
+        // Debounce the mutation observer to prevent excessive calls
+        let mutationTimeout;
+        
         this.observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'childList') {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.nodeType === Node.ELEMENT_NODE) {
-                            this.scanPageForTenantForms();
-                        }
-                    });
+            // Clear existing timeout
+            if (mutationTimeout) {
+                clearTimeout(mutationTimeout);
+            }
+            
+            // Debounce mutations to prevent excessive scanning
+            mutationTimeout = setTimeout(() => {
+                let shouldScan = false;
+                
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType === Node.ELEMENT_NODE) {
+                                // Only scan if forms or relevant content was added
+                                if (node.tagName === 'FORM' || 
+                                    node.querySelector && node.querySelector('form')) {
+                                    shouldScan = true;
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                if (shouldScan) {
+                    this.scanPageForTenantForms();
                 }
-            });
+            }, 500); // Debounce for 500ms
         });
 
         this.observer.observe(document.body, {
@@ -645,6 +685,38 @@ class TenantVerificationContent {
                 this.showFloatingWidget();
             }
         });
+    }
+
+    // Cleanup method to prevent memory leaks
+    cleanup() {
+        // Remove verification buttons
+        this.verificationButtons.forEach(button => {
+            if (button.parentNode) {
+                button.parentNode.removeChild(button);
+            }
+        });
+        this.verificationButtons = [];
+
+        // Remove floating widget
+        if (this.floatingWidget && this.floatingWidget.parentNode) {
+            this.floatingWidget.parentNode.removeChild(this.floatingWidget);
+            this.floatingWidget = null;
+        }
+
+        // Disconnect observer
+        if (this.observer) {
+            this.observer.disconnect();
+            this.observer = null;
+        }
+
+        // Clear timeouts
+        if (this.scanTimeout) {
+            clearTimeout(this.scanTimeout);
+            this.scanTimeout = null;
+        }
+
+        // Clear scanned forms set
+        this.scannedForms.clear();
     }
 }
 
