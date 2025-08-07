@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Verification India</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="icons/icon32.png" alt="Logo" class="logo-icon">
+                <h1>Tenant Verification</h1>
+            </div>
+            <p class="subtitle">Verify tenant information in India</p>
+        </header>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-btn" data-action="scan-page">
+                <span class="icon">🔍</span>
+                Scan Page
+            </button>
+            <button class="quick-btn" data-action="history">
+                <span class="icon">📋</span>
+                History
+            </button>
+            <button class="quick-btn" data-action="settings">
+                <span class="icon">⚙️</span>
+                Settings
+            </button>
+        </div>
+
+        <!-- Main Form -->
+        <form id="verificationForm" class="verification-form">
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="Enter full name">
+            </div>
+
+            <div class="form-group">
+                <label for="aadhaar">Aadhaar Number</label>
+                <input type="text" id="aadhaar" name="aadhaar" placeholder="XXXX-XXXX-XXXX" maxlength="14">
+                <small>Format: XXXX-XXXX-XXXX</small>
+            </div>
+
+            <div class="form-group">
+                <label for="pan">PAN Number</label>
+                <input type="text" id="pan" name="pan" placeholder="ABCDE1234F" maxlength="10">
+                <small>Format: ABCDE1234F</small>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91-98765-43210">
+                <small>Format: +91-98765-43210</small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="tenant@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="currentAddress">Current Address</label>
+                <textarea id="currentAddress" name="currentAddress" placeholder="Enter current residential address"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="employer">Employer/Company</label>
+                <input type="text" id="employer" name="employer" placeholder="Company name">
+            </div>
+
+            <div class="form-group">
+                <label for="salary">Monthly Salary (₹)</label>
+                <input type="number" id="salary" name="salary" placeholder="50000" min="0">
+            </div>
+
+            <button type="submit" class="verify-btn">
+                <span class="btn-icon">🔍</span>
+                Verify Tenant
+            </button>
+        </form>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state hidden">
+            <div class="spinner"></div>
+            <p>Verifying tenant information...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="results-section hidden">
+            <h3>Verification Results</h3>
+            <div id="resultsContent" class="results-content">
+                <!-- Results will be populated here -->
+            </div>
+            <div class="action-buttons">
+                <button id="saveResults" class="action-btn">Save Results</button>
+                <button id="shareResults" class="action-btn">Share</button>
+                <button id="newVerification" class="action-btn primary">New Verification</button>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div id="historySection" class="history-section hidden">
+            <h3>Verification History</h3>
+            <div id="historyContent" class="history-content">
+                <!-- History will be populated here -->
+            </div>
+            <button id="backToForm" class="action-btn">Back to Form</button>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settingsSection" class="settings-section hidden">
+            <h3>Settings</h3>
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="autoScan" checked>
+                    Auto-scan pages for tenant forms
+                </label>
+            </div>
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="notifications" checked>
+                    Show notifications
+                </label>
+            </div>
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="saveHistory" checked>
+                    Save verification history
+                </label>
+            </div>
+            <button id="saveSettings" class="action-btn primary">Save Settings</button>
+            <button id="backToFormFromSettings" class="action-btn">Back to Form</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for India</p>
+            <div class="footer-links">
+                <a href="#" id="helpLink">Help</a>
+                <a href="#" id="privacyLink">Privacy</a>
+                <a href="#" id="feedbackLink">Feedback</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

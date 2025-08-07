@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Verification Demo - Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-section h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        .property-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .property-details {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .property-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        .test-data {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .test-data h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .test-data pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tenant Verification Demo</h1>
+            <p>Test the Chrome extension functionality on this page</p>
+        </div>
+
+        <div class="instructions">
+            <h3>🧪 How to Test the Extension</h3>
+            <ul>
+                <li><strong>Install the extension</strong> in Chrome developer mode</li>
+                <li><strong>Refresh this page</strong> to see the extension in action</li>
+                <li><strong>Look for verification buttons</strong> that appear on forms</li>
+                <li><strong>Try the floating widget</strong> by pressing Ctrl+Shift+V</li>
+                <li><strong>Test context menu</strong> by selecting text and right-clicking</li>
+                <li><strong>Fill out forms</strong> to see auto-detection in action</li>
+            </ul>
+        </div>
+
+        <div class="test-data">
+            <h3>📋 Sample Test Data</h3>
+            <p>Use these sample details to test verification:</p>
+            <pre>
+Name: Rahul Sharma
+Aadhaar: 1234-5678-9012
+PAN: ABCDE1234F
+Phone: +91-98765-43210
+Email: rahul.sharma@example.com
+Address: 123 Main Street, Mumbai, Maharashtra
+Employer: Tech Solutions Pvt Ltd
+Salary: 75000
+            </pre>
+        </div>
+
+        <!-- Tenant Application Form -->
+        <div class="demo-section">
+            <h2>🏠 Tenant Application Form</h2>
+            <form class="tenant-application-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+91-98765-43210">
+                    </div>
+                    <div class="form-group">
+                        <label for="aadhaar">Aadhaar Number</label>
+                        <input type="text" id="aadhaar" name="aadhaar" placeholder="XXXX-XXXX-XXXX">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pan">PAN Number</label>
+                        <input type="text" id="pan" name="pan" placeholder="ABCDE1234F">
+                    </div>
+                    <div class="form-group">
+                        <label for="employer">Current Employer</label>
+                        <input type="text" id="employer" name="employer" placeholder="Company name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="currentAddress">Current Address</label>
+                    <textarea id="currentAddress" name="currentAddress" rows="3" placeholder="Enter your current residential address"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="salary">Monthly Salary (₹)</label>
+                        <input type="number" id="salary" name="salary" placeholder="50000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="moveInDate">Preferred Move-in Date</label>
+                        <input type="date" id="moveInDate" name="moveInDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="references">References</label>
+                    <textarea id="references" name="references" rows="3" placeholder="List any references (previous landlords, employers, etc.)"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="submit" class="btn">Submit Application</button>
+                    <button type="button" class="btn btn-secondary">Save Draft</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Property Listings -->
+        <div class="demo-section">
+            <h2>🏢 Available Properties</h2>
+            
+            <div class="property-card">
+                <div class="property-title">2 BHK Apartment - Bandra West</div>
+                <div class="property-details">
+                    <strong>Location:</strong> Bandra West, Mumbai<br>
+                    <strong>Type:</strong> 2 BHK Apartment<br>
+                    <strong>Furnished:</strong> Semi-furnished<br>
+                    <strong>Available:</strong> Immediate
+                </div>
+                <div class="property-price">₹45,000/month</div>
+                <button class="btn">Apply for this property</button>
+            </div>
+
+            <div class="property-card">
+                <div class="property-title">1 BHK Studio - Andheri East</div>
+                <div class="property-details">
+                    <strong>Location:</strong> Andheri East, Mumbai<br>
+                    <strong>Type:</strong> 1 BHK Studio<br>
+                    <strong>Furnished:</strong> Fully furnished<br>
+                    <strong>Available:</strong> Next month
+                </div>
+                <div class="property-price">₹25,000/month</div>
+                <button class="btn">Apply for this property</button>
+            </div>
+
+            <div class="property-card">
+                <div class="property-title">3 BHK Villa - Powai</div>
+                <div class="property-details">
+                    <strong>Location:</strong> Powai, Mumbai<br>
+                    <strong>Type:</strong> 3 BHK Villa<br>
+                    <strong>Furnished:</strong> Unfurnished<br>
+                    <strong>Available:</strong> 15 days
+                </div>
+                <div class="property-price">₹85,000/month</div>
+                <button class="btn">Apply for this property</button>
+            </div>
+        </div>
+
+        <!-- Quick Verification Form -->
+        <div class="demo-section">
+            <h2>⚡ Quick Verification</h2>
+            <form class="quick-verification-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quickName">Tenant Name</label>
+                        <input type="text" id="quickName" name="quickName" placeholder="Enter tenant name">
+                    </div>
+                    <div class="form-group">
+                        <label for="quickPhone">Phone Number</label>
+                        <input type="tel" id="quickPhone" name="quickPhone" placeholder="+91-98765-43210">
+                    </div>
+                </div>
+                <button type="button" class="btn">Quick Verify</button>
+            </form>
+        </div>
+
+        <!-- Rental Agreement Form -->
+        <div class="demo-section">
+            <h2>📄 Rental Agreement Details</h2>
+            <form class="rental-agreement-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tenantName">Tenant Name</label>
+                        <input type="text" id="tenantName" name="tenantName" placeholder="Full name of tenant">
+                    </div>
+                    <div class="form-group">
+                        <label for="landlordName">Landlord Name</label>
+                        <input type="text" id="landlordName" name="landlordName" placeholder="Full name of landlord">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="propertyAddress">Property Address</label>
+                    <textarea id="propertyAddress" name="propertyAddress" rows="3" placeholder="Complete property address"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rentAmount">Monthly Rent (₹)</label>
+                        <input type="number" id="rentAmount" name="rentAmount" placeholder="50000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="securityDeposit">Security Deposit (₹)</label>
+                        <input type="number" id="securityDeposit" name="securityDeposit" placeholder="100000" min="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="leaseStart">Lease Start Date</label>
+                        <input type="date" id="leaseStart" name="leaseStart">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaseEnd">Lease End Date</label>
+                        <input type="date" id="leaseEnd" name="leaseEnd">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="submit" class="btn">Generate Agreement</button>
+                    <button type="button" class="btn btn-secondary">Preview</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Test Content for Context Menu -->
+        <div class="demo-section">
+            <h2>🔍 Test Context Menu</h2>
+            <p>Select any of the following text and right-click to test the context menu verification:</p>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p><strong>Sample tenant information:</strong></p>
+                <p>Name: Priya Patel</p>
+                <p>Phone: +91-87654-32109</p>
+                <p>Email: priya.patel@email.com</p>
+                <p>Aadhaar: 9876-5432-1098</p>
+                <p>PAN: XYZAB9876C</p>
+            </div>
+
+            <p>Try selecting the text above and right-clicking to see the "Verify Tenant Information" option.</p>
+        </div>
+
+        <!-- Extension Status -->
+        <div class="demo-section">
+            <h2>🔧 Extension Status</h2>
+            <div id="extensionStatus">
+                <p>Checking extension status...</p>
+            </div>
+            <button onclick="checkExtensionStatus()" class="btn">Check Status</button>
+        </div>
+    </div>
+
+    <script>
+        // Check if extension is installed and working
+        function checkExtensionStatus() {
+            const statusDiv = document.getElementById('extensionStatus');
+            
+            // Try to communicate with the extension
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                chrome.runtime.sendMessage({action: 'ping'}, function(response) {
+                    if (chrome.runtime.lastError) {
+                        statusDiv.innerHTML = `
+                            <p style="color: #dc3545;">❌ Extension not detected or not responding</p>
+                            <p>Make sure the extension is installed and enabled in Chrome.</p>
+                        `;
+                    } else {
+                        statusDiv.innerHTML = `
+                            <p style="color: #28a745;">✅ Extension is working!</p>
+                            <p>Response: ${JSON.stringify(response)}</p>
+                        `;
+                    }
+                });
+            } else {
+                statusDiv.innerHTML = `
+                    <p style="color: #ffc107;">⚠️ Chrome extension APIs not available</p>
+                    <p>This page needs to be opened in Chrome with the extension installed.</p>
+                `;
+            }
+        }
+
+        // Auto-check status when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkExtensionStatus, 1000);
+        });
+
+        // Form submission handlers
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Form submitted! (Demo mode - no actual submission)');
+            });
+        });
+
+        // Property application buttons
+        document.querySelectorAll('.property-card .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Property application clicked! The extension should detect this as a tenant-related action.');
+            });
+        });
+
+        // Quick verify button
+        document.querySelector('.quick-verification-form .btn').addEventListener('click', function() {
+            alert('Quick verification requested! The extension should provide verification options.');
+        });
+
+        // Add some tenant-related keywords for testing
+        const tenantKeywords = [
+            'tenant', 'rent', 'lease', 'rental', 'property', 'accommodation',
+            'flat', 'apartment', 'house', 'room', 'pg', 'paying guest',
+            'tenant application', 'rental form', 'lease agreement'
+        ];
+
+        // Log for debugging
+        console.log('Tenant Verification Demo Page Loaded');
+        console.log('Extension should detect tenant-related content on this page');
+        console.log('Test keywords:', tenantKeywords);
+    </script>
+</body>
+</html>

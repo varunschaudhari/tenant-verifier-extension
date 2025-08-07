@@ -1,0 +1,437 @@
+/* Content Script Styles - Isolated from host website */
+
+/* Tenant Verification Button */
+.tenant-verification-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    margin: 10px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    z-index: 10000 !important;
+    position: relative !important;
+}
+
+.tenant-verification-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+}
+
+.tenant-verification-btn:active {
+    transform: translateY(0) !important;
+}
+
+.tenant-verification-btn .btn-icon {
+    font-size: 16px !important;
+}
+
+/* Highlighted Tenant Elements */
+.tenant-highlighted {
+    background: rgba(102, 126, 234, 0.1) !important;
+    border: 1px solid rgba(102, 126, 234, 0.3) !important;
+    border-radius: 4px !important;
+    padding: 2px 4px !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+}
+
+.tenant-highlighted:hover {
+    background: rgba(102, 126, 234, 0.15) !important;
+    border-color: rgba(102, 126, 234, 0.5) !important;
+}
+
+/* Tenant Tooltip */
+.tenant-tooltip {
+    position: absolute !important;
+    top: -30px !important;
+    left: 0 !important;
+    background: #667eea !important;
+    color: white !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    z-index: 10001 !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease !important;
+    pointer-events: none !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tenant-tooltip::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 10px !important;
+    border: 4px solid transparent !important;
+    border-top-color: #667eea !important;
+}
+
+/* Floating Widget */
+.tenant-verification-widget {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 350px !important;
+    max-height: 80vh !important;
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 14px !important;
+    display: none !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.tenant-verification-widget.show {
+    display: block !important;
+}
+
+/* Widget Header */
+.tenant-verification-widget .widget-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.tenant-verification-widget .widget-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+.tenant-verification-widget .widget-icon {
+    font-size: 18px !important;
+}
+
+.tenant-verification-widget .widget-close {
+    background: none !important;
+    border: none !important;
+    color: white !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.tenant-verification-widget .widget-close:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Widget Content */
+.tenant-verification-widget .widget-content {
+    padding: 16px !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+}
+
+/* Widget Form */
+.tenant-verification-widget .widget-form .form-group {
+    margin-bottom: 12px !important;
+}
+
+.tenant-verification-widget .widget-form label {
+    display: block !important;
+    font-weight: 500 !important;
+    margin-bottom: 4px !important;
+    font-size: 13px !important;
+    color: #333 !important;
+}
+
+.tenant-verification-widget .widget-form input,
+.tenant-verification-widget .widget-form textarea {
+    width: 100% !important;
+    padding: 8px 10px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.tenant-verification-widget .widget-form input:focus,
+.tenant-verification-widget .widget-form textarea:focus {
+    outline: none !important;
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1) !important;
+}
+
+.tenant-verification-widget .widget-form textarea {
+    resize: vertical !important;
+    min-height: 60px !important;
+}
+
+/* Widget Verify Button */
+.tenant-verification-widget .widget-verify-btn {
+    width: 100% !important;
+    padding: 10px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin-top: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+.tenant-verification-widget .widget-verify-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+}
+
+.tenant-verification-widget .widget-verify-btn:active {
+    transform: translateY(0) !important;
+}
+
+/* Widget Loading State */
+.tenant-verification-widget .widget-loading {
+    text-align: center !important;
+    padding: 20px !important;
+}
+
+.tenant-verification-widget .widget-spinner {
+    width: 30px !important;
+    height: 30px !important;
+    border: 3px solid #f3f3f3 !important;
+    border-top: 3px solid #667eea !important;
+    border-radius: 50% !important;
+    animation: tenant-spin 1s linear infinite !important;
+    margin: 0 auto 12px !important;
+}
+
+@keyframes tenant-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Widget Results */
+.tenant-verification-widget .widget-results {
+    padding: 0 !important;
+}
+
+.tenant-verification-widget .widget-results h4 {
+    margin-bottom: 12px !important;
+    color: #333 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.tenant-verification-widget .widget-results .results-content {
+    margin-bottom: 16px !important;
+}
+
+.tenant-verification-widget .widget-results .result-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 6px 0 !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+.tenant-verification-widget .widget-results .result-item:last-child {
+    border-bottom: none !important;
+}
+
+.tenant-verification-widget .widget-results .result-label {
+    font-weight: 500 !important;
+    color: #666 !important;
+    font-size: 13px !important;
+}
+
+.tenant-verification-widget .widget-results .result-value {
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+.tenant-verification-widget .widget-results .result-value.success {
+    color: #28a745 !important;
+}
+
+.tenant-verification-widget .widget-results .result-value.warning {
+    color: #ffc107 !important;
+}
+
+.tenant-verification-widget .widget-results .result-value.danger {
+    color: #dc3545 !important;
+}
+
+/* Widget New Verification Button */
+.tenant-verification-widget .widget-new-verification {
+    width: 100% !important;
+    padding: 8px !important;
+    background: #f8f9fa !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    margin-top: 12px !important;
+    transition: all 0.2s ease !important;
+    font-family: inherit !important;
+}
+
+.tenant-verification-widget .widget-new-verification:hover {
+    background: #e9ecef !important;
+    border-color: #adb5bd !important;
+}
+
+/* Widget Notifications */
+.widget-notification {
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    z-index: 10001 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    max-width: 300px !important;
+    word-wrap: break-word !important;
+}
+
+.widget-notification-success {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.widget-notification-error {
+    background: #dc3545 !important;
+    color: white !important;
+}
+
+.widget-notification-info {
+    background: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Utility Classes */
+.tenant-verification-widget .hidden {
+    display: none !important;
+}
+
+/* Animations */
+.tenant-verification-widget .widget-slide-in {
+    animation: tenant-slide-in 0.3s ease-out !important;
+}
+
+.tenant-verification-widget .widget-slide-out {
+    animation: tenant-slide-out 0.3s ease-out !important;
+}
+
+@keyframes tenant-slide-in {
+    from { 
+        transform: translateX(100%); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes tenant-slide-out {
+    from { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+    to { 
+        transform: translateX(100%); 
+        opacity: 0; 
+    }
+}
+
+/* Scrollbar Styling for Widget */
+.tenant-verification-widget .widget-content::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+.tenant-verification-widget .widget-content::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 3px !important;
+}
+
+.tenant-verification-widget .widget-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1 !important;
+    border-radius: 3px !important;
+}
+
+.tenant-verification-widget .widget-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tenant-verification-widget {
+        width: calc(100vw - 40px) !important;
+        right: 20px !important;
+        left: 20px !important;
+        max-width: 350px !important;
+    }
+    
+    .widget-notification {
+        max-width: calc(100vw - 40px) !important;
+        left: 20px !important;
+        right: 20px !important;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .tenant-verification-widget {
+        border: 2px solid #000 !important;
+    }
+    
+    .tenant-verification-widget .widget-form input,
+    .tenant-verification-widget .widget-form textarea {
+        border: 2px solid #000 !important;
+    }
+    
+    .tenant-highlighted {
+        border: 2px solid #000 !important;
+        background: #ffff00 !important;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .tenant-verification-widget .widget-slide-in,
+    .tenant-verification-widget .widget-slide-out,
+    .tenant-verification-widget .widget-spinner,
+    .tenant-verification-btn,
+    .tenant-highlighted,
+    .tenant-tooltip {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+

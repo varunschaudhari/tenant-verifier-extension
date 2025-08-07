@@ -1,0 +1,237 @@
+{
+  "name": "tenant-verification-india",
+  "version": "1.0.0",
+  "description": "A comprehensive Chrome extension for verifying tenant information in India. Provides identity verification, rental history checks, and background verification using Indian government databases.",
+  "main": "background.js",
+  "scripts": {
+    "build": "echo 'Building extension package...' && npm run clean && npm run copy && npm run icons && echo 'Build complete!'",
+    "clean": "rm -rf dist && mkdir dist",
+    "copy": "cp manifest.json popup.html popup.css popup.js background.js content.js content.css api-integration.js env.config.js ENVIRONMENT_SETUP.md demo.html generate-icons.html README.md INSTALLATION.md TESTING_GUIDE.md CHROME_STORE_PUBLISHING.md MARKETING_GUIDE.md dist/ && cp -r icons dist/",
+    "icons": "echo 'Icons should be generated using generate-icons.html'",
+    "package": "npm run build && cd dist && zip -r ../tenant-verification-india-v1.0.0.zip . && cd .. && echo 'Package created: tenant-verification-india-v1.0.0.zip'",
+    "test": "echo 'Running tests...' && npm run test:unit && npm run test:integration",
+    "test:unit": "echo 'Unit tests would run here'",
+    "test:integration": "echo 'Integration tests would run here'",
+    "test:e2e": "echo 'End-to-end tests would run here'",
+    "lint": "echo 'Linting would run here'",
+    "lint:fix": "echo 'Auto-fixing linting issues...'",
+    "dev": "echo 'Starting development server...' && python -m http.server 8000",
+    "setup-env": "node setup-env.js",
+    "watch": "echo 'Watching for file changes...' && nodemon --watch . --ext js,html,css --exec 'npm run build'",
+    "validate": "echo 'Validating extension...' && npm run lint && npm run test",
+    "deploy": "echo 'Deploying to Chrome Web Store...' && npm run validate && npm run package",
+    "docs": "echo 'Generating documentation...'",
+    "release": "npm run validate && npm run package && echo 'Release ready!'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "tenant-verification",
+    "india",
+    "aadhaar",
+    "pan",
+    "background-check",
+    "rental-history",
+    "identity-verification",
+    "real-estate",
+    "property-management",
+    "landlord-tools",
+    "tenant-screening",
+    "verification-api",
+    "government-apis",
+    "uidai",
+    "income-tax",
+    "telecom-verification",
+    "police-verification"
+  ],
+  "author": {
+    "name": "Tenant Verification India",
+    "email": "support@tenantverification.in",
+    "url": "https://tenantverification.in"
+  },
+  "contributors": [
+    {
+      "name": "Development Team",
+      "email": "dev@tenantverification.in"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/tenant-verification-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/tenant-verification-extension/issues"
+  },
+  "homepage": "https://tenantverification.in",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "Chrome >= 88"
+  ],
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0",
+    "jest": "^29.0.0",
+    "puppeteer": "^19.0.0"
+  },
+  "dependencies": {},
+  "files": [
+    "manifest.json",
+    "popup.html",
+    "popup.css",
+    "popup.js",
+    "background.js",
+    "content.js",
+    "content.css",
+    "api-integration.js",
+    "env.config.js",
+    "ENVIRONMENT_SETUP.md",
+    "icons/",
+    "demo.html",
+    "generate-icons.html",
+    "README.md",
+    "INSTALLATION.md",
+    "TESTING_GUIDE.md",
+    "CHROME_STORE_PUBLISHING.md",
+    "MARKETING_GUIDE.md"
+  ],
+  "chrome": {
+    "manifest_version": 3,
+    "permissions": [
+      "activeTab",
+      "storage",
+      "scripting",
+      "notifications"
+    ],
+    "host_permissions": [
+      "https://*.gov.in/*",
+      "https://*.nic.in/*",
+      "https://*.uidai.gov.in/*",
+      "https://*.incometax.gov.in/*"
+    ]
+  },
+  "config": {
+    "extension_id": "tenant-verification-india",
+    "store_url": "https://chrome.google.com/webstore/detail/tenant-verification-india",
+    "api_endpoints": {
+      "uidai": "https://api.uidai.gov.in",
+      "incometax": "https://api.incometax.gov.in",
+      "telecom": "https://api.telecom.gov.in",
+      "police": "https://api.police.gov.in"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://patreon.com/tenantverification"
+  },
+  "maintainers": [
+    {
+      "name": "Tenant Verification Team",
+      "email": "maintainers@tenantverification.in"
+    }
+  ],
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "bundledDependencies": [],
+  "overrides": {},
+  "resolutions": {},
+  "workspaces": [],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./background.js",
+    "./popup": "./popup.js",
+    "./content": "./content.js"
+  },
+  "imports": {
+    "#/*": "./*"
+  },
+  "directories": {
+    "lib": ".",
+    "bin": ".",
+    "man": "./man",
+    "doc": "./docs",
+    "example": "./examples",
+    "test": "./tests"
+  },
+  "man": "./man/tenant-verification.1",
+  "bin": {
+    "tenant-verification": "./cli.js"
+  },
+  "preferGlobal": false,
+  "gypfile": false,
+  "scripts": {
+    "preinstall": "node -e \"console.log('Installing Tenant Verification India Chrome Extension...')\"",
+    "postinstall": "node -e \"console.log('Installation complete! Load the extension in Chrome.')\"",
+    "prepublishOnly": "npm run validate",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{html,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "*.js",
+      "!tests/**",
+      "!node_modules/**"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended"
+    ],
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "webextensions": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 80,
+    "tabWidth": 2
+  }
+}
